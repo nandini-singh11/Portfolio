@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nandini Singh | Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+    }
+    body {
+      background-color: #6cdeeb;
+      color: #0a2528;
+      line-height: 1.6;
+    }
+    header {
+      background: #07787a;
+      color: white;
+      padding: 2rem 0;
+      text-align: center;
+    }
+    header h1{
+      background: #426e77;     
+      color: #ffffff;          
+      padding: 0.4em 1em;
+      border-radius: 8px;
+      display: inline-block;
+      font-weight: 700;
+      box-shadow: 0 2px 8px rgba(247, 181, 0, 0.12);
+    }
+    nav {
+      background: #07787a;
+      padding: 1em 0;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    nav a {
+      color: #acddf8;
+      font-weight: 500;
+      margin: 0 1em;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    nav a:hover {
+      color: #fff;
+      text-decoration: underline;
+    }
+    .section {
+      background: #a7e8f4;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      padding: 2rem;
+      margin-bottom: 2rem;
+      transition: box-shadow 0.3s, transform 0.3s;
+      animation: featurePopUp 1s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+    .section:hover {
+      box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+      transform: translateY(-8px) scale(1.03);
+    }
+    @keyframes featurePopUp {
+      0% {
+        opacity: 0;
+        transform: scale(0.95) translateY(30px);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+    .container {
+      max-width: 1000px;
+      margin: auto;
+      padding: 2rem;
+    }
+    h1, h2, h3 {
+      margin-bottom: 1rem;
+      color: #222;
+    }
+    .bio {
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+    }
+    .section {
+      margin-bottom: 3rem;
+    }
+    ul {
+      list-style: none;
+      padding-left: 1rem;
+    }
+    ul li::before {
+      content: "✔ ";
+      color: green;
+    }
+    a {
+      color: #007acc;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    .projects a {
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+    .certificates h3 {
+      background: #426e77;     
+      color: #c3ecf3;          
+      padding: 0.4em 1em;
+      border-radius: 8px;
+      display: inline-block;
+      font-weight: 700;
+      box-shadow: 0 2px 8px rgba(247, 181, 0, 0.12);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Nandini Singh</h1>
+    <p>Graphic Designer | Web Developer | UI/UX Designer | HR | Writer | Freelancer</p>
+  </header>
+
+  <nav>
+    <a href="#about">About</a> |
+    <a href="#education">Education</a> |
+    <a href="#skills">Skills</a> |
+    <a href="#projects">Projects</a> |
+    <a href="#experience">Experience</a> |
+    <a href="#certificates">Certifications & Trainings</a> |
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <div class="container">
+    <section class="section bio" id="about">
+      <h2>About Me</h2>
+      <p>
+        I'm Nandini Singh — a passionate and versatile creative professional with a dynamic blend of skills in graphic design,
+        web development, UI/UX design, HR, writing, and freelancing. I thrive on turning ideas into impactful visuals and intuitive
+        digital experiences. Whether it's building modern websites, crafting compelling content, or managing human resource
+        operations, I bring creativity, precision, and professionalism to every project. With a commitment to continuous learning
+        and innovation, I'm here to deliver smart, aesthetic, and result-driven solutions.
+      </p>
+    </section>
+    <section class="section education" id="education">
+      <h2>Education</h2>
+      <ul>
+        <li><strong>Bachelor of Technology in Computer Science</strong>, <a href="https://www.jagannathuniversity.org/" target="_blank">Jagannath University</a> – Graduating by May 2026</li>
+        <li><strong>Higher Secondary Education</strong>, Jyoti Senior Secondary School – Completed in 2022 with 71%</li>
+        <li><strong>Secondary Education</strong>, Jyoti Secondary School – Completed in 2020 with 76%</li>
+      </ul>
+    </section>
+
+    <section class="section" id="skills">
+      <h2>Skills</h2>
+      <ul>
+        <li>Adobe Photoshop, Illustrator, Canva, Figma</li>
+        <li>HTML, CSS, JavaScript, Bootstrap</li>
+        <li>UI/UX Prototyping, Wireframing (Figma, Adobe XD)</li>
+        <li>WordPress & Webflow</li>
+        <li>MS Excel, Word, PowerPoint</li>
+        <li>Content Writing, Copywriting</li>
+        <li>HR Management, Resume Screening</li>
+        <li>AI Tools Knowledge & Usage</li>
+        <li>Data Entry & Online Research</li>
+      </ul>
+    </section>
+
+    <section class="section projects" id="projects">
+      <h2>Projects</h2>
+      <h3>Website & UI/UX Projects</h3>
+      <a href="https://nandini-singh11.github.io/website-redesign/" target="_blank">Redesigned Website - UI/UX + Design + Development</a>
+      <a href="https://nandini-singh11.github.io/demo/" target="_blank">HTML & CSS Demo - UI/UX Focus</a>
+
+      <h3>AI Projects</h3>
+      <a href="https://stt-vtmh.onrender.com/" target="_blank">Speech-to-Text Application</a>
+      <a href="https://sentiment-analysis-udpz.onrender.com/" target="_blank">Sentiment Analysis Application</a>
+
+      <h3>Graphic Design Projects</h3>
+      <a href="https://www.dropbox.com/scl/fi/7bwavavhgk0h523hmlqat/Super-Burger.png?rlkey=7jpj5h4au09fdi47asib2957w&st=kpcqurgj&dl=0" target="_blank">Super Burger Poster</a>
+      <a href="https://www.dropbox.com/scl/fi/nbix0xv1r8t4x1ufq6ztp/Beige-and-Orange-Traditional-Guru-Purnima-Greeting-Instagram-Story-6.png?rlkey=c4yzei1y6s5wjppbqh8lq176k&st=4w8tkbr4&dl=0" target="_blank">Guru Purnima Instagram Story</a>
+      <a href="https://www.dropbox.com/scl/fi/0mut9j6b6l8xdva25qt5x/banner.pdf?rlkey=owt6wf6epcgaa4yy5t4ijqwqi&st=95clcyst&dl=0" target="_blank">Banner Design PDF</a>
+      <a href="https://www.dropbox.com/scl/fi/2x5illeh6gfoaxqj882il/Natural-Handicraft-1.pdf?rlkey=gkdjnzdli8pj6ap83zkfngjbg&st=9t0mqizv&dl=0" target="_blank">Natural Handicraft Design</a>
+    </section>
+
+    <section class="section experience" id="experience">
+      <h2>Experience</h2>
+       <ul>
+      <li><strong>UI/UX Intern</strong>, CodTech IT Solutions 
+        <ul>
+          <li>Developing user-friendly interfaces for web applications using HTML, CSS, and JavaScript.</li>
+          <li>Collaborating with designers to enhance user experience and accessibility.</li>
+        </ul>
+      </li>
+    </ul>
+    <ul>
+      <li><strong>Graphic Design Intern</strong>, MuskOwl LLP
+        <ul>
+          <li>Assisting in the design of visual content for digital platforms.</li>
+          <li>Collaborating with the marketing team to create engaging graphics.</li>
+        </ul>
+      </li>
+    </ul>
+    <ul>
+        <li> <strong>Artificial Intelligence Intern</strong></li>
+        <ul>
+          <li>Exploring AI tools and their applications in web development.</li>
+          <li>Assisting in the integration of AI features into web projects.</li>
+        </ul>
+      </li>
+      <li><strong>HR Assistant</strong></li>
+      <ul>
+        <li>Assisting in recruitment processes and candidate screening.</li>
+        <li>Supporting HR team in administrative tasks and employee engagement activities.</li>
+    </ul>
+    </section>
+
+    <section class="section certificates" id="certificates">
+      <h2>Certifications and Trainings</h2>
+        <ul><h3>Training Programs</h3>
+            <li><strong>Web Development</strong>, Internshala Trainings <a href="https://www.dropbox.com/scl/fi/ioegptthid71a6szn1r8m/inernshala-certificate.pdf?rlkey=cvi05gy84w4ack54olj37v2t9&st=n4h68dda&dl=0" target="_blank"><strong>Certificate Link</strong></a></li>
+            <li><strong>Python</strong>, Internshala Trainings <a href="https://www.dropbox.com/scl/fi/e7qntv95evuk3owi2fi9o/Programming-with-Python-Training-Certificate-of-Completion-1.pdf?rlkey=jt9uh5rz7skcc259gu1zmkynq&st=c4f3td55&dl=0" target="_blank"><strong>Certificate Link</strong></a></li>
+            <li><strong>C and C++</strong>, Internshala Trainings <a href="https://www.dropbox.com/scl/fi/urridbcu1yldqfspjfmgj/Programming-with-C-and-C-Training-Certificate-of-Completion-1.pdf?rlkey=jyqquelo3i3yr3c5skopwtxzf&st=beieih73&dl=0" target="_blank"><strong>Certificate Link</strong></a></li>
+            </ul>
+            <br>
+            <ul><h3>Certifications</h3>
+              <li><strong>Cybersecurity</strong>, Cisco Networking Academy <a href="https://www.dropbox.com/scl/fi/g4hbkbat4n0wdja364p37/Cybersecurity_Essentials_certificate_nandini11252-gmail-com_07949502-8d8e-493f-9213-f581a85de1d4.pdf?rlkey=0a7a94s8l6t20vd9mqqzr8r3v&st=3f6k3nti&dl=0" target="_blank"><strong>Certificate Link</strong></a></li>
+              <li><strong>Introduction to Cybersecurity</strong>, Cisco Networking Academy <a href="https://www.dropbox.com/scl/fi/2q3x4j1k0y5v6b7m8z9d6/Introduction_to_Cybersecurity_certificate_nandini11252-gmail-com_07949502-8d8e-493f-9213-f581a85de1d4.pdf?rlkey=0a7a94s8l6t20vd9mqqzr8r3v&st=3f6k3nti&dl=0" target="_blank"><strong>Certificate Link</strong></a></li>
+              <li><strong>Networking Essential</strong>, Cisco Networking Academy <a href="https://www.dropbox.com/scl/fi/wqosebzvj6ln39goi7549/Networking_Essentials_certificate_nandini11252-gmail-com_f28a7dd1-6dff-4248-99d3-95ef271de3e7.pdf?rlkey=311akxfwmybbg5vctf8yin97k&st=fimzbr8m&dl=0" target="_blank"><strong>Certificate Link</strong></a></li>
+              <li><strong>Artificial Intelligence</strong>, Codec Technologies <a href="https://www.dropbox.com/scl/fi/6nvcewytrqp0owfmffgkd/Nandini-Singh-AI-Certificate.pdf?rlkey=60oxsgfj49gznod05pnaw7z6t&st=3qvuuuhp&dl=0" target="_blank"><strong>Certificate Link</strong></a></li>
+            </ul>
+    </section>
+
+    <section class="section contacts" id="contact">
+      <h2>Contact</h2>
+      <p>Email: nandini11252@gmail.com</p>
+      <p>LinkedIn: <a href="https://www.linkedin.com/in/nandini-singh-a4a899264" target="_blank">linkedin.com/in/nandini-singh</a></p>
+      <p>GitHub: <a href="https://github.com/nandini-singh11" target="_blank">github.com/nandini-singh11</a></p>
+    </section>
+  </div>
+</body>
+</html>
