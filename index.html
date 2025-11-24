@@ -12,48 +12,156 @@
       padding: 0;
       font-family: 'Poppins', sans-serif;
     }
+
+    /* grey / black / gold palette */
+    :root{
+      --gold: #D4AF37;
+      --gold-bright: #FFD700;
+      --bg-dark: #0b0b0b;
+      --bg-mid: #1f1f1f;
+      --card: #262626;
+      --muted: #bfbab0;
+      --text: #efebe6;
+      --accent-border: rgba(212,175,55,0.08);
+
+      /* sticky header/nav variables (will be updated by JS) */
+      --header-height: 72px;
+      --nav-top: 72px;
+      --topbar-height: 128px;
+    }
+
+    /* body gradient + subtle multi-direction animation */
     body {
-      background-color: #6cdeeb;
-      color: #0a2528;
+      background: linear-gradient(135deg, var(--bg-mid) 0%, #141414 40%, var(--bg-dark) 75%);
+      background-size: 300% 300%;
+      animation: gradientShift 12s ease infinite;
+      color: var(--text);
       line-height: 1.6;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
     }
+
+    @keyframes gradientShift {
+      0%   { background-position: 0% 50%; }
+      25%  { background-position: 50% 0%; }
+      50%  { background-position: 100% 50%; }
+      75%  { background-position: 50% 100%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* STARFIELD (glitter / starry) canvas sits behind content */
+    #starfield {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;               /* behind page content */
+      pointer-events: none;
+      display: block;
+      opacity: 0.65;             /* reduce overall opacity so it's subtle */
+      mix-blend-mode: screen;    /* makes glow blend nicely on dark bg */
+    }
+
+    /* Respect reduced-motion user preference */
+    @media (prefers-reduced-motion: reduce) {
+      #starfield { opacity: 0.35; }
+      body { animation: none; background-size: cover; }
+      .reveal, .reveal.visible, .section { transition: none; transform: none; opacity: 1; }
+    }
+
+    /* make header + nav fixed at top */
     header {
-      background: #07787a;
-      color: white;
-      padding: 2rem 0;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(90deg, #0b0b0b, #121212);
+      color: var(--gold);
+      padding: 1.25rem 0;               /* slightly reduced padding to save space */
       text-align: center;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+      z-index: 80;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+      backdrop-filter: blur(6px);
     }
+
     nav {
-      background: #07787a;
-      padding: 1em 0;
+      position: fixed;
+      top: var(--nav-top);
+      left: 0;
+      right: 0;
+      background: rgba(10,10,10,0.35);
+      padding: 0.6rem 0;
       text-align: center;
-      margin-bottom: 2rem;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+      z-index: 75;
+      backdrop-filter: blur(4px);
     }
     nav a {
-      color: #acddf8;
+      color: var(--muted);
       font-weight: 500;
       margin: 0 1em;
       text-decoration: none;
-      transition: color 0.2s;
+      transition: color 0.18s ease;
     }
     nav a:hover {
-      color: #fff;
+      color: var(--gold-bright);
       text-decoration: underline;
     }
+
+    /* sections as dark cards with subtle gold accent border */
     .section {
-      background: #a7e8f4;
+      position: relative;
+      z-index: 1;                       /* ensure pseudo sits behind content but above page */
+      overflow: visible;                /* allow glow to extend outside */
+      background: linear-gradient(180deg, #232323, var(--card));
       border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.6);
       padding: 2rem;
       margin-bottom: 2rem;
-      transition: box-shadow 0.3s, transform 0.3s;
-      animation: featurePopUp 1s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      transition: box-shadow 0.28s ease, transform 0.28s ease, background 0.28s ease;
+      border: 1px solid var(--accent-border);
+      color: var(--text);
     }
+
+    /* outer white glow that appears around the section boundary on hover */
+    .section::before {
+      content: "";
+      position: absolute;
+      left: -10px;
+      right: -10px;
+      top: -10px;
+      bottom: -10px;
+      pointer-events: none;
+      border-radius: 16px; /* slightly larger than the card radius */
+      background: radial-gradient(ellipse at center,
+        rgba(255,255,255,0.20) 0%,
+        rgba(255,255,255,0.10) 18%,
+        rgba(255,255,255,0.04) 35%,
+        transparent 55%);
+      filter: blur(18px);
+      opacity: 0;
+      transform: scale(0.98);
+      transition: opacity 320ms ease, transform 320ms ease;
+      mix-blend-mode: screen;
+      z-index: 0; /* behind content (content uses z-index:2 below) */
+    }
+
+    /* ensure section content sits above the glow */
+    .section > * { position: relative; z-index: 2; }
+
+    /* stronger white glow when hovering + keep existing pop-up transform */
     .section:hover {
-      box-shadow: 0 8px 24px rgba(0,0,0,0.18);
-      transform: translateY(-8px) scale(1.03);
-      background: #caeaee; /* Add your desired hover color */
+      box-shadow: 0 20px 48px rgba(0,0,0,0.68), 0 8px 28px rgba(255,255,255,0.03) inset;
+      transform: translateY(-10px) scale(1.035);
+      background: linear-gradient(180deg, #2b2b2b, #2e2e2e);
     }
+
+    .section:hover::before {
+      opacity: 1;
+      transform: scale(1.02);
+    }
+
     @keyframes featurePopUp {
       0% {
         opacity: 0;
@@ -64,53 +172,118 @@
         transform: scale(1) translateY(0);
       }
     }
+
     .container {
       max-width: 1000px;
       margin: auto;
-      padding: 2rem;
+      /* add top padding equal to header+nav height (set by JS) */
+      padding: calc(2rem + var(--topbar-height)) 2rem 2rem;
     }
     h1, h2, h3 {
       margin-bottom: 1rem;
-      color: #222;
+      color: var(--text);
     }
+    h2 { color: var(--gold); }
     .bio {
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       margin-bottom: 2rem;
+      color: var(--muted);
     }
+
     .section {
       margin-bottom: 3rem;
     }
     ul {
       list-style: none;
       padding-left: 1rem;
+      color: var(--muted);
     }
     .credentials {
-  margin-bottom: 2.5rem;
-}
-    
+      margin-bottom: 2.5rem;
+    }
+
     a {
-      color: #007acc;
+      color: var(--gold);
       text-decoration: none;
     }
     a:hover {
+      color: var(--gold-bright);
       text-decoration: underline;
     }
     .projects a {
       display: block;
       margin-bottom: 0.5rem;
+      color: var(--muted);
     }
+
     .certificates h3 {
-      background: #426e77;     
-      color: #c3ecf3;          
+      background: var(--gold);
+      color: #111;
       padding: 0.4em 1em;
       border-radius: 8px;
       display: inline-block;
       font-weight: 700;
-      box-shadow: 0 2px 8px rgba(247, 181, 0, 0.12);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.6);
+    }
+
+    /* Scroll reveal styles: slide in from left or right depending on scroll direction */
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px) translateX(0) scale(0.98);
+      transition: opacity 520ms cubic-bezier(.2,.8,.2,1), transform 520ms cubic-bezier(.2,.8,.2,1);
+      will-change: opacity, transform;
+    }
+
+    /* starting offsets for side entrance */
+    .reveal.from-right {
+      transform: translateY(18px) translateX(36px) scale(0.98);
+    }
+    .reveal.from-left {
+      transform: translateY(18px) translateX(-36px) scale(0.98);
+    }
+
+    /* final visible state (centered) */
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0) translateX(0) scale(1);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal, .reveal.visible, .section { transition: none; transform: none; opacity: 1; }
+    }
+
+    /* small responsive tweaks */
+    @media (max-width:720px){
+      :root { --header-height: 64px; }
+      nav { padding: 0.5rem 0; }
+      .container { padding: calc(1rem + var(--topbar-height)) 1rem 1rem; }
+    }
+
+    /* skill bullets — light color */
+    .skill-block { margin-bottom: 1.25rem; }
+    .skill-block h3 { color: var(--gold); margin-bottom: 0.5rem; font-size: 1.05rem; }
+    .skill-block ul {
+      list-style: disc;
+      margin: 0 0 0 1.25rem;
+      padding: 0;
+      color: var(--muted);
+    }
+    .skill-block ul li {
+      margin-bottom: 0.55rem;
+      color: rgba(239,235,230,0.78); /* light text color */
+      font-size: 0.98rem;
+      line-height: 1.45;
+    }
+
+    @media (max-width:720px){
+      .skill-block ul { margin-left: 1rem; }
     }
   </style>
 </head>
 <body>
+  <!-- STARFIELD CANVAS (glitter / moving stars) -->
+  <canvas id="starfield" aria-hidden="true"></canvas>
+
   <header>
     <h1>Nandini Singh</h1>
     <p>Graphic Designer | Web Developer | UI/UX Designer | HR | Writer | Freelancer</p>
@@ -147,20 +320,64 @@
       </ul>
     </section>
 
+    
     <section class="section" id="skills">
       <h2>Skills</h2>
-      <ul>
-        <li>Adobe Photoshop, Illustrator, Canva, Figma</li>
-        <li>HTML, CSS, JavaScript, Bootstrap</li>
-        <li>UI/UX Prototyping, Wireframing (Figma, Adobe XD)</li>
-        <li>WordPress & Webflow</li>
-        <li>MS Excel, Word, PowerPoint</li>
-        <li>Content Writing, Copywriting</li>
-        <li>HR Management, Resume Screening</li>
-        <li>AI Tools Knowledge & Usage</li>
-        <li>Data Entry & Online Research</li>
-      </ul>
+
+      <div class="skill-block">
+        <h3>Graphic Designer</h3>
+        <ul>
+          <li><u><strong>Focus:</strong></u> Creativity, aesthetic sense, and technical proficiency with design tools.</li>
+          <li><u><strong>Design Software Proficiency:</strong></u> Adobe Creative Suite (Photoshop, Illustrator, InDesign, Acrobat Pro), Figma, Sketch, Canva.</li>
+          <li><u><strong>Core Design Principles:</strong></u> Typography, Color Theory, Layout Design, Branding &amp; Identity.</li>
+          <li><u><strong>Print &amp; Digital Media:</strong></u> Print Production (pre-press), Digital Marketing Assets (banners, social media graphics), Packaging Design, Publication Layouts.</li>
+          <li><u><strong>Soft Skills:</strong></u> Creative Problem Solving, Attention to Detail, Client Communication, Ability to receive and implement feedback.</li>
+        </ul>
+      </div>
+
+      <div class="skill-block">
+        <h3>Web Developer</h3>
+        <ul>
+          <li><u><strong>Front-End Technologies:</strong></u> HTML5, CSS3 (Sass, Less), JavaScript (ES6+, React, Vue.js), Responsive Design.</li>
+          <li><u><strong>Back-End Technologies:</strong></u> Python, Node.js, PHP, Database Management (MySQL, MongoDB).</li>
+          <li><u><strong>Tools &amp; Platforms:</strong></u> Git / GitHub / GitLab, VS Code, Webpack, CLI.</li>
+          <li><u><strong>Web Fundamentals:</strong></u> API Integration, Cross-Browser Compatibility, Performance Optimization, Basic SEO Principles.</li>
+          <li><u><strong>Soft Skills:</strong></u> Problem-solving, debugging, adherence to modern web standards.</li>
+        </ul>
+      </div>
+
+      <div class="skill-block">
+        <h3>UI/UX Designer</h3>
+        <ul>
+          <li><u><strong>UX Research &amp; Strategy:</strong></u> User Personas, Journey Mapping, Wireframing, Usability Testing, Information Architecture.</li>
+          <li><u><strong>UI Design &amp; Prototyping:</strong></u> High-Fidelity Mockups, Interactive Prototyping (Figma, Sketch, Adobe XD), Design Systems, Microinteractions.</li>
+          <li><u><strong>Design Thinking:</strong></u> Empathy Mapping, Iterative Design, Agile / Scrum Methodologies.</li>
+          <li><u><strong>Soft Skills:</strong></u> User Empathy, Collaborative Problem Solving, Data Analysis, Presentation Skills.</li>
+        </ul>
+      </div>
+
+      <div class="skill-block">
+        <h3>HR (Human Resources)</h3>
+        <ul>
+          <li><u><strong>Talent Acquisition:</strong></u> Recruitment &amp; Sourcing, Interviewing Techniques, Onboarding &amp; Offboarding, ATS Management.</li>
+          <li><u><strong>Employee Relations:</strong></u> Conflict Resolution, Performance Management, Employee Engagement Strategies, Policy Development.</li>
+          <li><u><strong>Compliance &amp; Admin:</strong></u> Knowledge of Labor Laws &amp; Regulations, Benefits Administration, Data Management.</li>
+          <li><u><strong>Soft Skills:</strong></u> Confidentiality, Interpersonal Communication, Leadership, Organizational Skills.</li>
+        </ul>
+      </div>
+
+      <div class="skill-block">
+        <h3>Writer</h3>
+        <ul>
+          <li><u><strong>Content Types:</strong></u> Copywriting, Technical Writing, Blog Posts &amp; Articles, UX Writing, Editing &amp; Proofreading.</li>
+          <li><u><strong>Strategy &amp; Research:</strong></u> SEO Principles, Keyword Research, Content Strategy, Fact-Checking &amp; Research Skills.</li>
+          <li><u><strong>Style &amp; Tools:</strong></u> Adherence to Style Guides (AP, Chicago), CMS Proficiency (WordPress), Grammarly.</li>
+          <li><u><strong>Soft Skills:</strong></u> Adaptability, Deadline Management, Clarity of Expression, Persuasion / Marketing Acumen.</li>
+        </ul>
+      </div>
     </section>
+
+    
 
     <section class="section projects" id="projects">
       <h2>Projects</h2>
@@ -172,7 +389,7 @@
       <a href="https://stt-vtmh.onrender.com/" target="_blank">Speech-to-Text Application</a>
       <a href="https://sentiment-analysis-udpz.onrender.com/" target="_blank">Sentiment Analysis Application</a>
 
-      <h3>Graphic Design Projects</h3>
+      <h3>Creative visual Design Projects</h3>
       <a href="https://www.dropbox.com/scl/fi/7bwavavhgk0h523hmlqat/Super-Burger.png?rlkey=7jpj5h4au09fdi47asib2957w&st=kpcqurgj&dl=0" target="_blank">Super Burger Poster</a>
       <a href="https://www.dropbox.com/scl/fi/nbix0xv1r8t4x1ufq6ztp/Beige-and-Orange-Traditional-Guru-Purnima-Greeting-Instagram-Story-6.png?rlkey=c4yzei1y6s5wjppbqh8lq176k&st=4w8tkbr4&dl=0" target="_blank">Guru Purnima Instagram Story</a>
       <a href="https://www.dropbox.com/scl/fi/0mut9j6b6l8xdva25qt5x/banner.pdf?rlkey=owt6wf6epcgaa4yy5t4ijqwqi&st=95clcyst&dl=0" target="_blank">Banner Design PDF</a>
@@ -181,34 +398,36 @@
 
     <section class="section experience" id="experience">
       <h2>Experience</h2>
-       <ul>
-      <li><strong>UI/UX Intern</strong>, CodTech IT Solutions 
-        <ul>
-          <li>Developing user-friendly interfaces for web applications using HTML, CSS, and JavaScript.</li>
-          <li>Collaborating with designers to enhance user experience and accessibility.</li>
-        </ul>
-      </li>
-    </ul>
-    <ul>
-      <li><strong>Graphic Design Intern</strong>, MuskOwl LLP
-        <ul>
-          <li>Assisting in the design of visual content for digital platforms.</li>
-          <li>Collaborating with the marketing team to create engaging graphics.</li>
-        </ul>
-      </li>
-    </ul>
-    <ul>
-        <li> <strong>Artificial Intelligence Intern</strong></li>
-        <ul>
-          <li>Exploring AI tools and their applications in web development.</li>
-          <li>Assisting in the integration of AI features into web projects.</li>
-        </ul>
-      </li>
-      <li><strong>HR Assistant</strong></li>
+
       <ul>
-        <li>Assisting in recruitment processes and candidate screening.</li>
-        <li>Supporting HR team in administrative tasks and employee engagement activities.</li>
-    </ul>
+        <h3>UI/UX Intern, CodTech IT Solutions</h3>
+        <p>Developing user-friendly interfaces for web applications using HTML, CSS, and JavaScript.</p>
+        <p>Collaborating with designers to enhance user experience and accessibility.</p>
+      </ul>
+
+      <ul>
+        <h3>Graphic Design Intern, MuskOwl LLP</h3>
+        <p>Assisting in the design of visual content for digital platforms.</p>
+        <p>Collaborating with the marketing team to create engaging graphics.</p>
+      </ul>
+
+      <ul>
+        <h3>Artificial Intelligence Intern</h3>
+        <p>Exploring AI tools and their applications in web development.</p>
+        <p>Assisting in the integration of AI features into web projects.</p>
+      </ul>
+
+      <ul>
+        <h3>HR Assistant</h3>
+        <p>Assisting in recruitment processes and candidate screening.</p>
+        <p>Supporting HR team in administrative tasks and employee engagement activities.</p>
+      </ul>
+
+      <ul>
+        <h3>CRM EXECUTIVE</h3>
+        <p>Managing customer relationships and ensuring client satisfaction.</p>
+        <p>Coordinating with sales and marketing teams to enhance customer experience.</p>
+      </ul>
     </section>
 
     <section class="section certificates" id="certificates">
@@ -250,9 +469,228 @@
       <p>GitHub: <a href="https://github.com/nandini-singh11" target="_blank">github.com/nandini-singh11</a></p>
     </section>
   </div>
+
+  <!-- script to measure header+nav and expose CSS vars so fixed topbar doesn't overlap content -->
+  <script>
+    (function(){
+      const header = document.querySelector('header');
+      const nav = document.querySelector('nav');
+
+      function updateTopVars(){
+        if(!header || !nav) return;
+        // measure heights
+        const h = Math.ceil(header.getBoundingClientRect().height);
+        const n = Math.ceil(nav.getBoundingClientRect().height);
+        document.documentElement.style.setProperty('--header-height', h + 'px');
+        document.documentElement.style.setProperty('--nav-top', h + 'px');
+        document.documentElement.style.setProperty('--topbar-height', (h + n) + 'px');
+      }
+
+      // update on load and resize (debounced)
+      let t;
+      window.addEventListener('resize', () => { clearTimeout(t); t = setTimeout(updateTopVars, 80); });
+      window.addEventListener('load', updateTopVars);
+      // also run immediately in case DOM already loaded
+      updateTopVars();
+    })();
+  </script>
+
+  <!-- STARFIELD SCRIPT -->
+  <script>
+    (function() {
+      const canvas = document.getElementById('starfield');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+
+      // Respect reduced motion
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      let stars = [];
+      let width = 0;
+      let height = 0;
+      const STAR_COUNT = Math.floor(Math.min(window.innerWidth, 7200000) / 1); // adaptive count
+      const GOLD = 'rgba(212,175,55,'; // base for glow
+
+      function resize() {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+        // regenerate stars on resize for consistent density
+        stars = [];
+        for (let i = 0; i < STAR_COUNT; i++) {
+          stars.push(createStar());
+        }
+      }
+
+      function rand(min, max) { return Math.random() * (max - min) + min; }
+
+      function createStar() {
+        const radius = Math.max(0.3, Math.random() * 1.8);
+        const x = Math.random() * width;
+        const y = Math.random() * height;
+        const speed = rand(0.02, 0.25); // slow drift
+        const angle = rand(-0.5, 0.5); // small horizontal drift
+        const twinkleSpeed = rand(0.002, 0.01);
+        const baseAlpha = rand(0.08, 0.85); // base brightness
+        const colorChoice = Math.random();
+        // color: mostly soft white, occasional warm gold
+        const color = colorChoice > 0.92 ? 'gold' : 'white';
+        return { x, y, radius, speed, angle, twinkleSpeed, baseAlpha, phase: Math.random() * Math.PI * 2, color };
+      }
+
+      function drawStar(s) {
+        const twinkle = Math.abs(Math.sin(s.phase));
+        const alpha = Math.max(0.02, Math.min(1, s.baseAlpha * (0.6 + twinkle * 0.9)));
+        ctx.save();
+        // glow
+        if (s.color === 'gold') {
+          ctx.shadowColor = GOLD + (alpha * 0.9) + ')';
+          ctx.fillStyle = 'rgba(255,230,180,' + alpha + ')';
+        } else {
+          ctx.shadowColor = 'rgba(255,255,255,' + (alpha * 0.6) + ')';
+          ctx.fillStyle = 'rgba(255,255,255,' + (alpha * 0.9) + ')';
+        }
+        ctx.shadowBlur = s.radius * 8; // bigger glow for bigger star
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.radius, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
+
+      let lastTime = 0;
+      function animate(time) {
+        if (reduceMotion) {
+          // draw a subtle static starfield once
+          ctx.clearRect(0, 0, width, height);
+          for (const s of stars) drawStar(s);
+          return; // don't request next frame
+        }
+
+        const dt = (time - lastTime) || 16;
+        lastTime = time;
+
+        ctx.clearRect(0, 0, width, height);
+
+        for (let s of stars) {
+          // update position with slow drift
+          s.x += s.angle * s.speed * (dt * 0.06);
+          s.y += s.speed * (dt * 0.06);
+
+          // wrap edges gently
+          if (s.x < -10) s.x = width + 10;
+          if (s.x > width + 10) s.x = -10;
+          if (s.y > height + 10) s.y = -10;
+          if (s.y < -10) s.y = height + 10;
+
+          // twinkle
+          s.phase += s.twinkleSpeed * (dt * 0.06);
+
+          drawStar(s);
+        }
+
+        // occasional larger glitter particles
+        if (Math.random() < 0.02) {
+          const g = {
+            x: Math.random() * width,
+            y: Math.random() * height,
+            radius: rand(0.9, 3.2),
+            life: 0,
+            ttl: rand(900, 2600),
+            vx: rand(-0.04, 0.04),
+            vy: rand(-0.04, 0.04),
+            color: Math.random() > 0.7 ? 'gold' : 'white'
+          };
+          glitter.push(g);
+        }
+
+        // draw and update glitters
+        for (let i = glitter.length - 1; i >= 0; i--) {
+          const g = glitter[i];
+          g.life += dt;
+          const t = g.life / g.ttl;
+          if (t >= 1) { glitter.splice(i, 1); continue; }
+
+          ctx.save();
+          const a = Math.sin(t * Math.PI) * 0.9; // fade in/out
+          if (g.color === 'gold') {
+            ctx.shadowColor = GOLD + (a * 0.9) + ')';
+            ctx.fillStyle = 'rgba(255,230,180,' + a + ')';
+          } else {
+            ctx.shadowColor = 'rgba(255,255,255,' + (a * 0.7) + ')';
+            ctx.fillStyle = 'rgba(255,255,255,' + a + ')';
+          }
+          ctx.shadowBlur = g.radius * 12;
+          ctx.beginPath();
+          ctx.arc(g.x, g.y, g.radius, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+
+          g.x += g.vx * (dt * 0.06);
+          g.y += g.vy * (dt * 0.06);
+        }
+
+        requestAnimationFrame(animate);
+      }
+
+      const glitter = [];
+
+      // initialize
+      resize();
+      window.addEventListener('resize', resize);
+      if (!reduceMotion) requestAnimationFrame(animate);
+      else animate(); // draw static
+
+      // Clean up if needed (not strictly necessary on a simple page)
+      // window.addEventListener('unload', () => { window.removeEventListener('resize', resize); });
+    })();
+  </script>
+
+  <!-- Scroll reveal script: adds .reveal and toggles .visible when a .section enters viewport.
+       Direction detection sets .from-right or .from-left so items slide in from both sides. -->
+  <script>
+    (function(){
+      const sections = document.querySelectorAll('.section');
+      if (!sections.length) return;
+
+      // ensure every section has .reveal
+      sections.forEach(s => s.classList.add('reveal'));
+
+      // track scroll direction
+      let lastY = window.pageYOffset || 0;
+      let scrollDir = 'down';
+      window.addEventListener('scroll', () => {
+        const y = window.pageYOffset || 0;
+        scrollDir = (y > lastY) ? 'down' : (y < lastY ? 'up' : scrollDir);
+        lastY = y;
+      }, { passive: true });
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          const el = entry.target;
+          if (entry.isIntersecting) {
+            // set side class based on scroll direction
+            el.classList.remove('from-left', 'from-right');
+            el.classList.add(scrollDir === 'down' ? 'from-right' : 'from-left');
+
+            // restart animation each time element enters view
+            el.classList.remove('visible');
+            // force reflow to allow restart
+            void el.offsetWidth;
+            el.classList.add('visible');
+          } else {
+            // remove visible so it can animate again when re-entering
+            el.classList.remove('visible');
+          }
+        });
+      }, {
+        threshold: 0.18,
+        rootMargin: '0px 0px -8% 0px'
+      });
+
+      sections.forEach(s => observer.observe(s));
+    })();
+  </script>
 </body>
 </html>
-
 
 
 
