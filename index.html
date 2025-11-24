@@ -216,28 +216,47 @@
       color: var(--muted);
     }
 
-    .certificates h3 {
-      background: var(--gold);
-      color: #111;
-      padding: 0.4em 1em;
-      border-radius: 8px;
-      display: inline-block;
-      font-weight: 700;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.6);
-    }
-
     /* gold boxed topic badge (used for skills, projects, experience headings) */
     .topic-badge {
-      background: var(--gold);
-      color: #111 !important; /* ensure black text inside the gold box */
+      background: transparent;
+      color: var(--gold) !important;
       display: inline-block;
-      padding: 0.35rem 0.85rem;
-      border-radius: 8px;
+      padding: 0;                /* no box padding */
+      border-radius: 0;
       font-weight: 700;
       font-size: 0.96rem;
+      box-shadow: none;
+      margin-bottom: 0.4rem;
+    }
+    /* ensure h3.topic-badge inherits gold text */
+    h3.topic-badge { color: var(--gold) !important; }
+
+    /* Certificates sub-heading previously boxed — make it plain gold text too */
+    .certificates h3 {
+      background: transparent;
+      color: var(--gold);
+      padding: 0;
+      border-radius: 0;
+      display: inline-block;
+      font-weight: 700;
+      box-shadow: none;
+      margin-bottom: 0.6rem;
+    }
+
+    /* SECTION TITLE: gold boxed h2 (make section titles appear in gold box) */
+    .section > h2 {
+      background: var(--gold);
+      color: #111;
+      display: inline-block;
+      padding: 0.4em 1em;
+      border-radius: 8px;
+      font-weight: 700;
       box-shadow: 0 4px 14px rgba(212,175,55,0.12), 0 2px 6px rgba(0,0,0,0.45);
       margin-bottom: 0.75rem;
     }
+
+    /* remove previous simple h2 color rule so boxed style shows correctly */
+    /* (if there's an existing `h2 { color: var(--gold); }` earlier, it will be overridden by this) */
 
     @media (max-width:720px){
       :root { --header-height: 64px; }
