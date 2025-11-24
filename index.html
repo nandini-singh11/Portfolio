@@ -285,6 +285,32 @@
     @media (max-width:720px){
       .skill-block ul { margin-left: 1rem; }
     }
+
+    /* Scroll reveal styles: slide in from left or right depending on scroll direction */
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px) translateX(0) scale(0.98);
+      transition: opacity 520ms cubic-bezier(.2,.8,.2,1), transform 520ms cubic-bezier(.2,.8,.2,1);
+      will-change: opacity, transform;
+    }
+
+    /* starting offsets for side entrance */
+    .reveal.from-right {
+      transform: translateY(18px) translateX(36px) scale(0.98);
+    }
+    .reveal.from-left {
+      transform: translateY(18px) translateX(-36px) scale(0.98);
+    }
+
+    /* final visible state (centered) */
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0) translateX(0) scale(1);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal, .reveal.visible, .section { transition: none; transform: none; opacity: 1; }
+    }
   </style>
 </head>
 <body>
